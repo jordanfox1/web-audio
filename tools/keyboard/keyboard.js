@@ -2,35 +2,44 @@ export const showKeyboard = () => {
   const header = document.createElement("h1");
   header.innerHTML = "HELLO KEYS";
   document.body.appendChild(header);
+  createSlider()
   createKeyboard();
 };
 
+// Global variables
+const audioContext = new AudioContext();
+console.log(audioContext.sampleRate); //48000
+const buffer = audioContext.createBuffer(
+  2,
+  audioContext.sampleRate * 1,
+  audioContext.sampleRate
+);
+const channelData = buffer.getChannelData(0);
+
+// volumeController
+const primaryGainControl = audioContext.createGain();
+primaryGainControl.gain.setValueAtTime(0.05, 0); //setValueAtTime lets us set the value of the gain node at a specific time in the lifecycle of the audioContext
+primaryGainControl.connect(audioContext.destination);
+
+function createSlider(input) {
+    const slider = document.createElement('input')
+    slider.setAttribute("type", "range")
+    console.log(slider.value)
+    slider.addEventListener('change', (e) => {
+        console.log(e.target.value)
+        input = e.target.value * 0.0005
+        console.log(input)
+        primaryGainControl.gain.setValueAtTime(input, 0)
+    })
+    document.body.appendChild(slider)
+}
+
 const createKeyboard = () => {
-  const audioContext = new AudioContext();
-  console.log(audioContext.sampleRate); //48000
-
-  const buffer = audioContext.createBuffer(
-    2,
-    audioContext.sampleRate * 1,
-    audioContext.sampleRate
-  );
-
-  const channelData = buffer.getChannelData(0);
-
-  // mutate the channelData directly to create a signal
-  // mapping a random value over the signal to create whitenoise
-  for (let i = 0; i < buffer.length; i++) {
-    channelData[i] = Math.random() * 2 - 1;
-  }
-
   // Now connect the audio node to another node which is the audio destination node
   // The destination node is attached directly to the audio context and
   // it represents whatever hardware is configured to play auudio on the user's device (WOW)
 
   // first create a gain node to turn down the volume so you don't blow up your speakers
-  const primaryGainControl = audioContext.createGain();
-  primaryGainControl.gain.setValueAtTime(0.05, 0); //setValueAtTime lets us set the value of the gain node at a specific time in the lifecycle of the audioContext
-  primaryGainControl.connect(audioContext.destination);
 
   const notes = [
     { name: "c", frequency: 261.63 },
@@ -57,7 +66,7 @@ const createKeyboard = () => {
 
       //Vibrato
       const vibrato = audioContext.createOscillator();
-      //frequensy of vibrato osc will determine the speed of vibrato
+      //frequency of vibrato osc will determine the speed of vibrato
       vibrato.frequency.setValueAtTime(40, 0);
       // gain determines intesity of vibrato
       const vibratoGain = audioContext.createGain();

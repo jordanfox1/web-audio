@@ -13,5 +13,4 @@
 * hp filter
 * lp filter
 
-## todo
-* fix routing to dynamically add remove script/ clear dom elements
+
