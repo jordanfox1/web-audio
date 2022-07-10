@@ -233,30 +233,86 @@ function createPiano() {
         </g>
     </svg>`;
 
-    const octaveKeys = `
-    <rect class="piano-key white-key" x="0" y="0" width="40" height="200" ></rect>
-    <rect class="piano-key white-key" x="40" y="0" width="40" height="200" ></rect>
-    <rect class="piano-key white-key" x="80" y="0" width="40" height="200" ></rect>
-    <rect class="piano-key white-key" x="120" y="0" width="40" height="200"></rect>
-    <rect class="piano-key white-key" x="160" y="0" width="40" height="200" ></rect>
-    <rect class="piano-key white-key" x="200" y="0" width="40" height="200" ></rect>
-    <rect class="piano-key white-key" x="240" y="0" width="40" height="200" ></rect>
-    <rect class="piano-key black-key" x="30" y="0" width="20" height="125" ></rect>
-    <rect class="piano-key black-key" x="70" y="0" width="20" height="125" ></rect>
-    <rect class="piano-key black-key" x="150" y="0" width="20" height="125" ></rect>
-    <rect class="piano-key black-key" x="190" y="0" width="20" height="125" ></rect>
-    <rect class="piano-key black-key" x="230" y="0" width="20" height="125" ></rect>
-    `
-    const piano = document.querySelector('#piano')
-    piano.innerHTML = pianoSVG
-    const pianoKeyboard = document.querySelector("#piano-keyboard")
+    const piano = document.querySelector("#piano")
 
-    for (let i = 0; i < numberOfOctaves; i++) {
-        const octave = document.createElementNS("http://www.w3.org/2000/svg", "g") //createElementNS is used to create an SVG namespace
-        octave.classList.add("octave")
-        octave.setAttribute("transform", `translate(${ i * octaveWidth }, 0)`)
-        octave.innerHTML = octaveKeys
-        pianoKeyboard.appendChild(octave)
-    }    
+    const pianoApp = {
+        setupPaino() {
+            // Add main SVG to piano div
+            piano.innerHTML = pianoSVG
+            const pianoKeyboard = document.querySelector("#piano-keyboard")
+
+            //createOctaves
+            for (let i = 0; i < numberOfOctaves; i++) {
+                 const octave = utils.createSVGElement("g")
+                 octave.classList.add("octave")
+                 octave.setAttribute("transform", `translate(${ i * octaveWidth }, 0)`)
+
+                 let whiteKeyXPosition = 0
+                 // Add white Keys to ocatve
+                 for (let i = 0; i < 7; i++) {
+                    const whiteKey = utils.createSVGElement("rect")
+                    whiteKey.classList.add("white-key")
+                    whiteKey.setAttribute("x", whiteKeyXPosition)
+                    whiteKey.setAttribute("width", 40)
+                    whiteKey.setAttribute("height", 200)
+                    whiteKeyXPosition += 40
+                    octave.appendChild(whiteKey);            
+                 }
+
+                 let blackKeyXPosition = 30
+                 // Add black keys to octave
+                 for (let i = 0; i < 5; i++) {
+                    const blackKey = utils.createSVGElement("rect")
+                    blackKey.classList.add("black-key")
+                    blackKey.setAttribute("x", blackKeyXPosition)
+                    blackKey.setAttribute("width", 20)
+                    blackKey.setAttribute("height", 125)
+
+                    if (i === 1) {
+                        blackKeyXPosition += 80
+                    } else {
+                        blackKeyXPosition += 40
+                    }
+
+                    octave.appendChild(blackKey);
+                 }
+
+                 pianoKeyboard.appendChild(octave)
+            }
+        }
+    }
+
+    const utils = {
+        createSVGElement(el) {
+            const element = document.createElementNS("http://www.w3.org/2000/svg", el)
+            return element
+        }
+    }
+    pianoApp.setupPaino()
+    // const octaveKeys = `
+    // <rect class="piano-key white-key" x="0" y="0" width="40" height="200" ></rect>
+    // <rect class="piano-key white-key" x="40" y="0" width="40" height="200" ></rect>
+    // <rect class="piano-key white-key" x="80" y="0" width="40" height="200" ></rect>
+    // <rect class="piano-key white-key" x="120" y="0" width="40" height="200"></rect>
+    // <rect class="piano-key white-key" x="160" y="0" width="40" height="200" ></rect>
+    // <rect class="piano-key white-key" x="200" y="0" width="40" height="200" ></rect>
+    // <rect class="piano-key white-key" x="240" y="0" width="40" height="200" ></rect>
+    // <rect class="piano-key black-key" x="30" y="0" width="20" height="125" ></rect>
+    // <rect class="piano-key black-key" x="70" y="0" width="20" height="125" ></rect>
+    // <rect class="piano-key black-key" x="150" y="0" width="20" height="125" ></rect>
+    // <rect class="piano-key black-key" x="190" y="0" width="20" height="125" ></rect>
+    // <rect class="piano-key black-key" x="230" y="0" width="20" height="125" ></rect>
+    // `
+    // const piano = document.querySelector('#piano')
+    // piano.innerHTML = pianoSVG
+    // const pianoKeyboard = document.querySelector("#piano-keyboard")
+
+    // for (let i = 0; i < numberOfOctaves; i++) {
+    //     const octave = document.createElementNS("http://www.w3.org/2000/svg", "g") //createElementNS is used to create an SVG namespace
+    //     octave.classList.add("octave")
+    //     octave.setAttribute("transform", `translate(${ i * octaveWidth }, 0)`)
+    //     octave.innerHTML = octaveKeys
+    //     pianoKeyboard.appendChild(octave)
+    // }    
 }
 
