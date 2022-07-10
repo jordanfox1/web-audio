@@ -5,6 +5,6 @@ export const showStudio = () => {
     const header = document.createElement('h1')
     header.innerHTML = "HELLO STUDIO"
     document.body.appendChild(header)
-    showDrums()
-    showKeyboard()
+    // showDrums()
+    // showKeyboard()
 }
