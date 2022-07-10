@@ -1,22 +1,6 @@
-const showKeyboard = () => {
-    const header = document.createElement('h1')
-    header.innerHTML = "HELLO KEYS"
-    document.body.appendChild(header)
-}
-
-const showDrums = () => {
-    const header = document.createElement('h1')
-    header.innerHTML = "HELLO DRUM"
-    document.body.appendChild(header)
-}
-
-const showStudio = () => {
-    const header = document.createElement('h1')
-    header.innerHTML = "HELLO STUDIO"
-    document.body.appendChild(header)
-    showDrums()
-    showKeyboard()
-}
+import { showKeyboard } from "./tools/keyboard/keyboard"
+import { showDrums } from "./tools/drums/drums"
+import { showStudio } from "./tools/studio";
 
 const location = window.location.pathname;
 if (location.length == 0) {
@@ -37,7 +21,6 @@ switch (location) {
         showStudio()
         break;
 }
-
 
 // const audioContext = new AudioContext()
 // console.log(audioContext.sampleRate) //48000
