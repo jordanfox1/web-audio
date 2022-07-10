@@ -21,9 +21,16 @@ const primaryGainControl = audioContext.createGain();
 primaryGainControl.gain.setValueAtTime(0.05, 0); //setValueAtTime lets us set the value of the gain node at a specific time in the lifecycle of the audioContext
 primaryGainControl.connect(audioContext.destination);
 
-function createSlider(input) {
+function createSlider(input, name) {
+    const label = document.createElement('label')
+    name = 'Gain'
+    label.innerHTML = name
+    label.setAttribute("for", name)
+
     const slider = document.createElement('input')
     slider.setAttribute("type", "range")
+    slider.setAttribute("name", name)
+
     console.log(slider.value)
     slider.addEventListener('change', (e) => {
         console.log(e.target.value)
@@ -31,6 +38,7 @@ function createSlider(input) {
         console.log(input)
         primaryGainControl.gain.setValueAtTime(input, 0)
     })
+    document.body.appendChild(label)
     document.body.appendChild(slider)
 }
 
