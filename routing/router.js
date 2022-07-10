@@ -6,6 +6,7 @@ document.addEventListener("click", (e) => {
         return;
     }
     route();
+    // e.preventDefault()
 })
 
 const urlRoutes = {
@@ -49,9 +50,9 @@ const urlLocationHandler = async () => {
 
     const targetRoute = urlRoutes[location] || urlRoutes[404]
     // fetching our html
-    const html = await fetch(targetRoute.template)
-    const response = await html.text()
-    document.getElementById("content").innerHTML = response
+    // const html = await fetch(targetRoute.template)
+    // const response = await html.text()
+    // document.getElementById("content").innerHTML = response
 
     // check for old script, if there place new script after it and delete
     // const oldScript = document.querySelector('script')

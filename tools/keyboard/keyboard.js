@@ -1,12 +1,15 @@
+import { createGainSlider } from "../../plugins/volumeControl";
+import { createVibratoSlider } from "../../plugins/vibrato";
+
 export const showKeyboard = () => {
   const header = document.createElement("h1");
   header.innerHTML = "HELLO KEYS";
   document.body.appendChild(header);
-  createSlider()
+  createGainSlider(primaryGainControl);
   createKeyboard();
 };
 
-// Global variables
+// Global variables - these will be used by the functions pulled in from other files, and also the funcntions declared in here
 const audioContext = new AudioContext();
 console.log(audioContext.sampleRate); //48000
 const buffer = audioContext.createBuffer(
@@ -21,33 +24,10 @@ const primaryGainControl = audioContext.createGain();
 primaryGainControl.gain.setValueAtTime(0.05, 0); //setValueAtTime lets us set the value of the gain node at a specific time in the lifecycle of the audioContext
 primaryGainControl.connect(audioContext.destination);
 
-function createSlider(input, name) {
-    const label = document.createElement('label')
-    name = 'Gain'
-    label.innerHTML = name
-    label.setAttribute("for", name)
-
-    const slider = document.createElement('input')
-    slider.setAttribute("type", "range")
-    slider.setAttribute("name", name)
-
-    console.log(slider.value)
-    slider.addEventListener('change', (e) => {
-        console.log(e.target.value)
-        input = e.target.value * 0.0005
-        console.log(input)
-        primaryGainControl.gain.setValueAtTime(input, 0)
-    })
-    document.body.appendChild(label)
-    document.body.appendChild(slider)
-}
-
 const createKeyboard = () => {
   // Now connect the audio node to another node which is the audio destination node
   // The destination node is attached directly to the audio context and
-  // it represents whatever hardware is configured to play auudio on the user's device (WOW)
-
-  // first create a gain node to turn down the volume so you don't blow up your speakers
+  // it represents whatever hardware is configured to play audio on the user's device (WOW)
 
   const notes = [
     { name: "c", frequency: 261.63 },
@@ -71,7 +51,7 @@ const createKeyboard = () => {
       const osc = audioContext.createOscillator();
       osc.type = "square";
       osc.frequency.setValueAtTime(note.frequency, audioContext.currentTime);
-
+      
       //Vibrato
       const vibrato = audioContext.createOscillator();
       //frequency of vibrato osc will determine the speed of vibrato

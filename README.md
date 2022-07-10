@@ -14,3 +14,4 @@
 * lp filter
 
 
+new oscillators on the keyboard can go in the foreach loop eg vibrato and then can be manipulated by a button

@@ -2,7 +2,7 @@ import { showKeyboard } from "./tools/keyboard/keyboard"
 import { showDrums } from "./tools/drums/drums"
 import { showStudio } from "./tools/studio";
 
-const location = window.location.pathname;
+let location = window.location.pathname;
 if (location.length == 0) {
     location = '/'
 }
