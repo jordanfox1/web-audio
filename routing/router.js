@@ -5,7 +5,6 @@ document.addEventListener("click", (e) => {
     if (!target.matches("nav a")) {
         return;
     }
-    e.preventDefault();
     route();
 })
 
@@ -38,7 +37,6 @@ const urlRoutes = {
 
 const route = (event) => {
     event = event || window.event
-    event.preventDefault()
     window.history.pushState({}, '', event.target.href)
     urlLocationHandler()
 }
