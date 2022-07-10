@@ -9,6 +9,7 @@ export const showKeyboard = () => {
   createSineKeyboard();
   createModKeyboard();
   createPluckKeyboard();
+  createPiano()
 };
 
 // Global variables - these will be used by the functions pulled in from other files, and also the funcntions declared in here
@@ -178,9 +179,9 @@ const createPluckKeyboard = () => {
     const noteButton = document.createElement("button");
     noteButton.innerText = note.name;
     noteButton.addEventListener("click", () => {
-    const osc = audioContext.createOscillator();
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(note.frequency, audioContext.currentTime);
+      const osc = audioContext.createOscillator();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(note.frequency, audioContext.currentTime);
 
       //Vibrato
       //   const vibrato = audioContext.createOscillator();
@@ -215,6 +216,47 @@ const createPluckKeyboard = () => {
     });
 
     document.body.appendChild(noteButton);
-    noteButton.classList.add(note.cssClass)
+    noteButton.classList.add(note.cssClass);
   });
 };
+
+function createPiano() {
+    let numberOfOctaves = 2;
+    const octaveWidth = 280;
+    const pianoSVG = `<svg 
+        width = 50%    
+        version="1.1" 
+        xmlns="http://www.w3.org/2000/svg" 
+        xmlns:xlink="http://www.w3.org/1999/xlink" 
+        viewBox="0 0 ${numberOfOctaves * octaveWidth} 400">
+        <g id="piano-keyboard">
+        </g>
+    </svg>`;
+
+    const octaveKeys = `
+    <rect class="piano-key white-key" x="0" y="0" width="40" height="200" ></rect>
+    <rect class="piano-key white-key" x="40" y="0" width="40" height="200" ></rect>
+    <rect class="piano-key white-key" x="80" y="0" width="40" height="200" ></rect>
+    <rect class="piano-key white-key" x="120" y="0" width="40" height="200"></rect>
+    <rect class="piano-key white-key" x="160" y="0" width="40" height="200" ></rect>
+    <rect class="piano-key white-key" x="200" y="0" width="40" height="200" ></rect>
+    <rect class="piano-key white-key" x="240" y="0" width="40" height="200" ></rect>
+    <rect class="piano-key black-key" x="30" y="0" width="20" height="125" ></rect>
+    <rect class="piano-key black-key" x="70" y="0" width="20" height="125" ></rect>
+    <rect class="piano-key black-key" x="150" y="0" width="20" height="125" ></rect>
+    <rect class="piano-key black-key" x="190" y="0" width="20" height="125" ></rect>
+    <rect class="piano-key black-key" x="230" y="0" width="20" height="125" ></rect>
+    `
+    const piano = document.querySelector('#piano')
+    piano.innerHTML = pianoSVG
+    const pianoKeyboard = document.querySelector("#piano-keyboard")
+
+    for (let i = 0; i < numberOfOctaves; i++) {
+        const octave = document.createElementNS("http://www.w3.org/2000/svg", "g") //createElementNS is used to create an SVG namespace
+        octave.classList.add("octave")
+        octave.setAttribute("transform", `translate(${ i * octaveWidth }, 0)`)
+        octave.innerHTML = octaveKeys
+        pianoKeyboard.appendChild(octave)
+    }    
+}
+
