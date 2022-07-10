@@ -14,4 +14,6 @@
 * lp filter
 
 
-new oscillators on the keyboard can go in the foreach loop eg vibrato and then can be manipulated by a button
+todo: fix black key position ?????
+todo: add onclick play function for each key - map notes to keys
+ - may have to approach keyboard completely differently
